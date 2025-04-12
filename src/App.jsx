@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="App">
+      <Navbar bg="light" data-bs-theme="light" className="custom-nav">
+        <Container>
+          <Navbar.Brand href="#home">Shoe Shop</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#cart">Cart</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+
+      <div className="main-bg"></div>
+
+      <div className="container text-center">
+
+        <div className="row">
+          <div className="col-6 col-md-4">.col-6 .col-md-4</div>
+          <div className="col-6 col-md-4">.col-6 .col-md-4</div>
+          <div className="col-6 col-md-4">.col-6 .col-md-4</div>
+        </div>
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+    </div>
+  );
 }
 
-export default App
+export default App;
+
