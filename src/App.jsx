@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import "./App.css";
+import data from "./data.jsx";
 
 function App() {
-  const [count, setCount] = useState(0);
+  let [shoes] = useState(data);
 
   return (
     <div className="App">
@@ -20,18 +21,26 @@ function App() {
       <div className="main-bg"></div>
 
       <div className="container text-center">
-
         <div className="row">
-          <div className="col-6 col-md-4">.col-6 .col-md-4</div>
-          <div className="col-6 col-md-4">.col-6 .col-md-4</div>
-          <div className="col-6 col-md-4">.col-6 .col-md-4</div>
+          <Card shoes = {shoes[0]} i={1}></Card>
+          <Card shoes = {shoes[1]} i={2}></Card>
+          <Card shoes = {shoes[2]} i={3}></Card>
         </div>
-
       </div>
-
     </div>
   );
 }
 
-export default App;
+function Card(props) {
+  return (
+    <div className="col-md-4">
+      <img src= {"https://codingapple1.github.io/shop/shoes" + props.i + ".jpg"} width= "80%"/>
+      <h5>{props.shoes.title}</h5>
+      <p>{props.shoes.price}</p>
+    </div>
+  )
+}
 
+
+
+export default App;
