@@ -22,9 +22,13 @@ function App() {
 
       <div className="container text-center">
         <div className="row">
-          <Card shoes = {shoes[0]} i={1}></Card>
-          <Card shoes = {shoes[1]} i={2}></Card>
-          <Card shoes = {shoes[2]} i={3}></Card>
+          {
+            shoes.map((a, i)=> {
+              return (
+                <Card shoes={shoes[i]} i={i+1}></Card>
+              )
+            } )
+          }
         </div>
       </div>
     </div>
