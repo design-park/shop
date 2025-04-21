@@ -4,9 +4,12 @@ import "./App.css";
 import data from "./data.jsx";
 import { Routes, Route, useNavigate, Outlet } from "react-router-dom";
 import Detail from "./pages/Detail.jsx";
+import axios from "axios";
 
 function App() {
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
+  let [clickCount, setClickCount] = useState(0);
+  let [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
 
   return (
@@ -28,10 +31,42 @@ function App() {
             <>
               <div className="main-bg"></div>
               <Cards shoes={shoes} />
+              {isLoading && <p>로딩 중...</p>}
+              {clickCount >= 3 && (
+                <div className="alert alert-warning">
+                  더 이상 상품이 없습니다.
+                </div>
+              )}
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  setClickCount((prev) => prev + 1);
+                  if (clickCount < 3) {
+                    setIsLoading(true); //로딩 시작
+                    axios
+                      .get(
+                        "https://codingapple1.github.io/shop/data" +
+                          (clickCount + 2) +
+                          ".json"
+                      )
+                      .then((result) => {
+                        let copy = [...shoes, ...result.data];
+                        setShoes(copy);
+                        setIsLoading(false); // 로딩 끝
+                      })
+                      .catch(() => {
+                        console.log("실패함 ㅅㄱ");
+                        setIsLoading(false); //실패해도 로딩 끝
+                      });
+                  }
+                }}
+              >
+                더보기
+              </button>
             </>
           }
         />
-        <Route path="/detail/:id" element={<Detail shoes={shoes}/>} />
+        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
         <Route path="/event" element={<Event />}>
           <Route
             path="one"
