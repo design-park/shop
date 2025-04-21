@@ -8,7 +8,8 @@ function Detail(props) {
   let [showAlert, setShowAlert] = useState(true);
   let [amount, setAmount] = useState(1);
   let [isAmount, setisAmount] = useState(true);
-  let [tab, setTab] = useState(0); 
+  let [tab, setTab] = useState(0);
+  let [fade2, setFade2] = useState('');
 
   useEffect(() => {
     let a = setTimeout(() => {
@@ -26,8 +27,20 @@ function Detail(props) {
     setisAmount(valid);
   }, [amount]);
 
+  useEffect(() => {
+    let a = setTimeout(() => {
+      setFade2("end");
+    }, 100)
+    
+    return () => {
+      clearTimeout(a);
+      setFade2('');
+    }
+  }, [])
+
+
   return (
-    <div className="container">
+    <div className={`container start ${fade2}`}>
       {showAlert == true ? (
         <div className="alert alert-warning">2초 이내 구매 시 할인</div>
       ) : null}
@@ -56,32 +69,52 @@ function Detail(props) {
               />
             </span>
           </p>
-          {isAmount ? 
-            null
-           : <div className="alert alert-warning">그러지 마세요</div>}
+          {isAmount ? null : (
+            <div className="alert alert-warning">그러지 마세요</div>
+          )}
           <button className="btn btn-danger">주문하기</button>
         </div>
       </div>
 
       <Nav justify variant="tabs" defaultActiveKey="link-0">
-      <Nav.Item>
-        <Nav.Link onClick={() => setTab(0)} eventKey="link-0">탭1</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link onClick={() => setTab(1)} eventKey="link-1">탭2</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link onClick={() => setTab(2)} eventKey="link-2">탭3</Nav.Link>
-      </Nav.Item>
-    </Nav>
-    <TabContent tab={tab}/>
-
+        <Nav.Item>
+          <Nav.Link onClick={() => setTab(0)} eventKey="link-0">
+            탭1
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link onClick={() => setTab(1)} eventKey="link-1">
+            탭2
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link onClick={() => setTab(2)} eventKey="link-2">
+            탭3
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <TabContent tab={tab} />
     </div>
   );
 }
 
-function TabContent({tab}) {
-  return [ <div>내용0</div>, <div>내용1</div>, <div>내용2</div> ][tab];
+function TabContent({ tab }) {
+  let [fade, setFade] = useState('');
+
+  useEffect(()=> {
+    let a = setTimeout(() => {setFade("end")}, 100)
+
+    return () => {
+      clearTimeout(a)
+      setFade('')
+    }
+  }, [tab])
+
+  return (
+    <div className={"start " + fade}>
+      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}
+    </div>
+  );
 }
 
 export default Detail;
