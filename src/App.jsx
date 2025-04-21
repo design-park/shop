@@ -30,13 +30,11 @@ function App() {
           element={
             <>
               <div className="main-bg"></div>
-              <Cards shoes={shoes} />
-              {isLoading && <p>로딩 중...</p>}
-              {clickCount >= 3 && (
-                <div className="alert alert-warning">
-                  더 이상 상품이 없습니다.
-                </div>
-              )}
+              <Cards
+                shoes={shoes}
+                isLoading={isLoading}
+                clickCount={clickCount}
+              />
               <button
                 className="btn btn-danger"
                 onClick={() => {
@@ -112,6 +110,10 @@ function Cards(props) {
           return <Card shoes={s} i={i}></Card>;
         })}
       </div>
+      {props.isLoading && <p>로딩 중...</p>}
+      {props.clickCount >= 3 && (
+        <div className="alert alert-warning">더 이상 상품이 없습니다.</div>
+      )}
     </div>
   );
 }
