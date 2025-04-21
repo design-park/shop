@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Nav } from "react-bootstrap";
 
 function Detail(props) {
   let { id } = useParams();
@@ -7,6 +8,7 @@ function Detail(props) {
   let [showAlert, setShowAlert] = useState(true);
   let [amount, setAmount] = useState(1);
   let [isAmount, setisAmount] = useState(true);
+  let [tab, setTab] = useState(0); 
 
   useEffect(() => {
     let a = setTimeout(() => {
@@ -60,8 +62,26 @@ function Detail(props) {
           <button className="btn btn-danger">주문하기</button>
         </div>
       </div>
+
+      <Nav justify variant="tabs" defaultActiveKey="link-0">
+      <Nav.Item>
+        <Nav.Link onClick={() => setTab(0)} eventKey="link-0">탭1</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link onClick={() => setTab(1)} eventKey="link-1">탭2</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link onClick={() => setTab(2)} eventKey="link-2">탭3</Nav.Link>
+      </Nav.Item>
+    </Nav>
+    <TabContent tab={tab}/>
+
     </div>
   );
+}
+
+function TabContent({tab}) {
+  return [ <div>내용0</div>, <div>내용1</div>, <div>내용2</div> ][tab];
 }
 
 export default Detail;
