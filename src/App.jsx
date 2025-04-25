@@ -4,6 +4,7 @@ import "./App.css";
 import data from "./data.jsx";
 import { Routes, Route, useNavigate, Outlet } from "react-router-dom";
 import Detail from "./pages/Detail.jsx";
+import Cart from "./pages/Cart.jsx";
 import axios from "axios";
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
           }
         />
         <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route path= "/cart" element={<Cart />} />
         <Route path="/event" element={<Event />}>
           <Route
             path="one"
