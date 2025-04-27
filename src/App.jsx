@@ -109,7 +109,7 @@ function Cards(props) {
     <div className="container text-center">
       <div className="row">
         {props.shoes.map((s, i) => {
-          return <Card shoes={s} i={i}></Card>;
+          return <Card key={i} shoes={s} i={i}></Card>;
         })}
       </div>
       {props.isLoading && <p>로딩 중...</p>}

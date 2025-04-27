@@ -1,8 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Nav } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { addProduct } from "./../store.jsx";
+import { NumberInCart } from "../NumberInCart.jsx";
 
 function Detail(props) {
+  let dispatch = useDispatch();
   let { id } = useParams();
   let found = props.shoes.find((x) => x.id == id);
   let [showAlert, setShowAlert] = useState(true);
@@ -59,6 +63,7 @@ function Detail(props) {
           <h4 className="pt-5">{found.title}</h4>
           <p>{found.content}</p>
           <p>{found.price}원</p>
+          <p><NumberInCart id={id} /></p>
           <p>
             수량:
             <span>
@@ -72,7 +77,9 @@ function Detail(props) {
           {isAmount ? null : (
             <div className="alert alert-warning">그러지 마세요</div>
           )}
-          <button className="btn btn-danger">주문하기</button>
+          <button className="btn btn-danger" onClick={()=>{
+            dispatch(addProduct(found))
+          }}>주문하기</button>
         </div>
       </div>
 
