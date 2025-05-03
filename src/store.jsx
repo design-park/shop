@@ -35,6 +35,7 @@ let cart = createSlice({
       let isExisting = false;
       for (const item of state.array) {
         if (item.id === action.payload.id) {
+          item.count += 1
           isExisting = true
           break   
         }
@@ -44,15 +45,25 @@ let cart = createSlice({
         state.array.push({
           id: action.payload.id,
           name: action.payload.title,
-          count: 3
+          count: 1
         })
+      }
+    },
+
+    removeProduct(state, action) {
+      for (const item of state.array) {
+        if (item.id === action.payload) {
+          const index = state.array.indexOf(item)
+          state.array.splice(index, 1)
+          break
+        }
       }
     }
   }
 })
 
 export let { changeName } = user.actions
-export let { changeAmount, addProduct } = cart.actions
+export let { changeAmount, addProduct, removeProduct } = cart.actions
 
 export default configureStore({
   reducer: {
