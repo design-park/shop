@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import "./App.css";
 import data from "./data.jsx";
@@ -12,6 +12,12 @@ function App() {
   let [clickCount, setClickCount] = useState(0);
   let [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("watched") === null) {
+      localStorage.setItem("watched", JSON.stringify([]));
+    }
+  }, []);
 
   return (
     <div className="App">
@@ -31,6 +37,10 @@ function App() {
           element={
             <>
               <div className="main-bg"></div>
+              <div className="sticky-overlay">
+                <p>최근 본 항목</p>
+                <WatchedCard/>
+              </div>
               <Cards
                 shoes={shoes}
                 isLoading={isLoading}
@@ -66,7 +76,7 @@ function App() {
           }
         />
         <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
-        <Route path= "/cart" element={<Cart />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/event" element={<Event />}>
           <Route
             path="one"
@@ -90,8 +100,12 @@ function Event() {
 }
 
 function Card(props) {
+  let navigate = useNavigate();
   return (
-    <div className="col-md-4">
+    <div
+      className="col-md-4"
+      onClick={() => navigate("/detail/" + (props.i))}
+    >
       <img
         src={
           "https://codingapple1.github.io/shop/shoes" + (props.i + 1) + ".jpg"
@@ -116,6 +130,25 @@ function Cards(props) {
       {props.clickCount >= 3 && (
         <div className="alert alert-warning">더 이상 상품이 없습니다.</div>
       )}
+    </div>
+  );
+}
+
+function WatchedCard() {
+  const watched = JSON.parse(localStorage.getItem("watched")) || [];
+  const lastTwo = watched.slice(-2).reverse();  // grab the last two IDs, then newest-first
+
+  if (lastTwo.length === 0) return null;
+
+  return (
+    <div>
+      {lastTwo.map((id) => (
+        <img
+          key={id}
+          src={`https://codingapple1.github.io/shop/shoes${id + 1}.jpg`}
+          width="80%"
+        />
+      ))}
     </div>
   );
 }

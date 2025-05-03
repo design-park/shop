@@ -20,3 +20,26 @@ div {
     opacity: 1;
     transition: opacity 0.5s;
 }
+
+.sticky-overlay {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 9999;
+    width: 120px;
+    color: white;
+    background-color: #3D365C;
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+.sticky-overlay p {
+    display: block;
+}
+
+.sticky-overlay img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}

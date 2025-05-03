@@ -17,29 +17,38 @@ function Detail(props) {
 
   useEffect(() => {
     let a = setTimeout(() => {
-      setShowAlert(false);
-    }, 2000);
+      setShowAlert(false)
+    }, 2000)
 
     return () => {
-      clearTimeout(a);
+      clearTimeout(a)
     };
-  }, []);
+  }, [])
 
   useEffect(() => {
-    const parsed = parseInt(amount);
-    const valid = !isNaN(parsed) && parsed >= 1 && Number.isInteger(parsed);
-    setisAmount(valid);
-  }, [amount]);
+    const parsed = parseInt(amount)
+    const valid = !isNaN(parsed) && parsed >= 1 && Number.isInteger(parsed)
+    setisAmount(valid)
+  }, [amount])
 
   useEffect(() => {
     let a = setTimeout(() => {
-      setFade2("end");
+      setFade2("end")
     }, 100)
     
     return () => {
-      clearTimeout(a);
-      setFade2('');
+      clearTimeout(a)
+      setFade2('')
     }
+  }, [])
+
+  useEffect(() => {
+    let gotten = localStorage.getItem('watched')
+    gotten = JSON.parse(gotten)
+    gotten.push(found.id)
+    gotten = new Set(gotten)
+    gotten = Array.from(gotten)
+    localStorage.setItem('watched', JSON.stringify(gotten))
   }, [])
 
 
