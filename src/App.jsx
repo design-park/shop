@@ -4,9 +4,7 @@ import "./App.css";
 import data from "./data.jsx";
 import { Routes, Route, useNavigate, Outlet } from "react-router-dom";
 import axios from "axios";
-
-//import Detail from "./pages/Detail.jsx";
-//import Cart from "./pages/Cart.jsx";
+import useUsername from "./hooks/useUsername.jsx";
 
 const Detail = lazy(() => import("./pages/Detail.jsx"));
 const Cart = lazy(() => import("./pages/Cart.jsx"));
@@ -16,6 +14,7 @@ function App() {
   let [clickCount, setClickCount] = useState(0);
   let [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
+  let userName = useUsername();
 
   useEffect(() => {
     if (localStorage.getItem("watched") === null) {
@@ -40,6 +39,7 @@ function App() {
           path="/"
           element={
             <>
+              <p>{userName}</p>
               <div className="main-bg"></div>
               <div className="sticky-overlay">
                 <p>최근 본 항목</p>
