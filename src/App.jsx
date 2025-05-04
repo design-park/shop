@@ -1,11 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import "./App.css";
 import data from "./data.jsx";
 import { Routes, Route, useNavigate, Outlet } from "react-router-dom";
-import Detail from "./pages/Detail.jsx";
-import Cart from "./pages/Cart.jsx";
 import axios from "axios";
+
+//import Detail from "./pages/Detail.jsx";
+//import Cart from "./pages/Cart.jsx";
+
+const Detail = lazy(() => import("./pages/Detail.jsx"));
+const Cart = lazy(() => import("./pages/Cart.jsx"));
 
 function App() {
   let [shoes, setShoes] = useState(data);
@@ -39,7 +43,7 @@ function App() {
               <div className="main-bg"></div>
               <div className="sticky-overlay">
                 <p>최근 본 항목</p>
-                <WatchedCard/>
+                <WatchedCard />
               </div>
               <Cards
                 shoes={shoes}
@@ -75,7 +79,14 @@ function App() {
             </>
           }
         />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route
+          path="/detail/:id"
+          element={
+            <Suspense fallback={<div>로딩 중임</div>}>
+              <Detail shoes={shoes} />
+            </Suspense>
+          }
+        />
         <Route path="/cart" element={<Cart />} />
         <Route path="/event" element={<Event />}>
           <Route
@@ -102,10 +113,7 @@ function Event() {
 function Card(props) {
   let navigate = useNavigate();
   return (
-    <div
-      className="col-md-4"
-      onClick={() => navigate("/detail/" + (props.i))}
-    >
+    <div className="col-md-4" onClick={() => navigate("/detail/" + props.i)}>
       <img
         src={
           "https://codingapple1.github.io/shop/shoes" + (props.i + 1) + ".jpg"
@@ -136,7 +144,7 @@ function Cards(props) {
 
 function WatchedCard() {
   const watched = JSON.parse(localStorage.getItem("watched")) || [];
-  const lastTwo = watched.slice(-2).reverse();  // grab the last two IDs, then newest-first
+  const lastTwo = watched.slice(-2).reverse(); // grab the last two IDs, then newest-first
 
   if (lastTwo.length === 0) return null;
 
